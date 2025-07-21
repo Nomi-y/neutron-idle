@@ -1,0 +1,432 @@
+:root {
+    --bg-color: #121212;
+    --bg-secondary: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-secondary: #aaaaaa;
+    --primary-color: #bb86fc;
+    --primary-dark: #3700b3;
+    --secondary-color: #03dac6;
+    --accent-color: #ff7597;
+    --border-color: #333333;
+    --button-bg: #2d2d2d;
+    --button-hover: #3d3d3d;
+    --disabled-color: #555555;
+    --progress-bar: var(--primary-color);
+    --notification-bg: #2a2a2a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important
+}
+
+.game-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main-display {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.resource-display {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resource {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.resource-name {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.resource-amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.resource-per-second {
+    font-size: 1rem;
+    color: var(--accent-color);
+}
+
+.prestige-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.prestige-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.prestige-button:hover {
+    background-color: #ff577d;
+}
+
+.prestige-button:disabled {
+    background-color: var(--disabled-color);
+}
+
+.prestige-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.tab-header {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: large;
+    color: var(--text-secondary);
+}
+
+.tab-container {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.tab-buttons {
+    display: flex;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    flex: 1;
+    padding: 15px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tab-button:hover {
+    background-color: var(--button-hover);
+}
+
+.tab-button.active {
+    background-color: var(--primary-dark);
+    color: white;
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.generator-description {
+    flex: 1;
+    padding: 10px 0;
+    overflow-y: unset;
+}
+
+.generator-list,
+.upgrade-list,
+.prestige-upgrade-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.generator,
+.upgrade,
+.prestige-upgrade {
+    background-color: var(--button-bg);
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s;
+}
+
+
+.generator-name,
+.upgrade-name,
+.prestige-upgrade-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.generator-description,
+.upgrade-description,
+.prestige-upgrade-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.generator-stats,
+.upgrade-stats,
+.prestige-upgrade-stats {
+    display: flex-column;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.generator-amount {
+    color: var(--secondary-color);
+}
+
+.generator-production {
+    color: var(--accent-color);
+}
+
+.generator-cost,
+.upgrade-cost,
+.prestige-upgrade-cost {
+    font-weight: bold;
+}
+
+.generator-buttons,
+.upgrade-buttons,
+.prestige-buttons {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+}
+
+.buy-single {
+    flex: 3;
+    min-width: 0;
+}
+
+.buy-max {
+    flex: 1.4;
+    min-width: 0;
+}
+
+.buy-button {
+    background-color: var(--primary-dark);
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-block
+}
+
+.buy-button:hover {
+    background-color: var(--primary-color);
+}
+
+.buy-button:disabled {
+    background-color: var(--disabled-color);
+    cursor: default;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--disabled-color);
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--primary-color);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+.save-button,
+.export-button,
+.import-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-button {
+    background-color: var(--secondary-color);
+    color: black;
+}
+
+.export-button {
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.import-button {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.reset-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #d32f2f;
+    color: white;
+    margin-top: 20px;
+}
+
+.notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.notification {
+    background-color: var(--notification-bg);
+    border-left: 4px solid var(--primary-color);
+    padding: 15px;
+    border-radius: 4px;
+    max-width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.progress-bar {
+    height: 5px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--progress-bar);
+    width: 0%;
+    transition: width 0.3s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+    .generator-list,
+    .upgrade-list,
+    .prestige-upgrade-list {
+        grid-template-columns: 1fr;
+    }
+
+    .main-display {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .prestige-display {
+        align-items: flex-start;
+        width: 100%;
+    }
+}

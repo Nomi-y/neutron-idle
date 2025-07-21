@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="game-container">
+      <!-- Main Display -->
+      <div class="main-display">
+        <div class="resource-display">
+          <div class="resource" id="primary-resource">
+            <span class="resource-name">Neutrons</span>
+            <span class="resource-amount" id="points">0</span>
+            <span class="resource-per-second" id="points-per-second">0/sec</span>
+          </div>
+        </div>
+        <div class="prestige-display hidden" id="neutron-stars">
+          <button class="prestige-button" id="prestige-button">Prestige for 0 Neutron Stars</button>
+          <div class="prestige-info">
+            <span>Neutron Stars:
+              <span id="prestige-points">0</span></span>
+          </div>
+        </div>
+      </div>
+      <!-- Tab Navigation -->
+      <div class="tab-container">
+        <div class="tab-buttons">
+          <button class="tab-button active" data-tab="generators">Isotopes</button>
+          <button class="tab-button" data-tab="upgrades">Centrifuge</button>
+          <button class="tab-button" data-tab="autobuyers">Autobuyers</button>
+          <button class="tab-button hidden" data-tab="prestige">Neutron Stars</button>
+          <button class="tab-button" data-tab="options">Options</button>
+        </div>
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Generators Tab -->
+          <div class="tab-pane active" id="generators-tab">
+            <span class="tab-header">Premium unstable isotopes - Now with extra beta particles!</span>
+            <div class="generator-list" id="generator-list">
+              <!-- Generators will be added here dynamically -->
+            </div>
+          </div>
+          <!-- Upgrades Tab -->
+          <div class="tab-pane" id="upgrades-tab">
+            <span class="tab-header">Throw isotopes into the centifuge to research various upgrades!</span>
+            <div class="upgrade-list" id="upgrade-list">
+              <!-- Upgrades will be added here dynamically -->
+            </div>
+          </div>
+          <!-- Prestige Tab -->
+          <div class="tab-pane" id="prestige-tab">
+            <div class="prestige-upgrade-list" id="prestige-upgrade-list">
+              <!-- Prestige upgrades will be added here dynamically -->
+            </div>
+          </div>
+          <div class="tab-pane" id="autobuyers">
+            <div class="autobuyer-list" id="autobuyer-list"></div>
+          </div>
+          <!-- Options Tab -->
+          <div class="tab-pane" id="options-tab">
+            <div class="options-container">
+              <button class="save-button" id="save-button">Save Game</button>
+              <button class="export-button" id="export-button">Export Save</button>
+              <button class="import-button" id="import-button">Import Save</button>
+              <button class="reset-button" id="reset-button">Hard Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Notifications -->
+      <div class="notification-container" id="notification-container">
+        <!-- Notifications will appear here -->
+      </div>
+    </div>
+    <!-- Scripts -->
+    <script src="/src/game.ts" type="module"></script>
+  </body>
+</html>

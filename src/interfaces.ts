@@ -1,0 +1,61 @@
+import Decimal from "decimal.js";
+export interface IGenerator {
+    id: string
+    name: string
+    shortName: string
+    description: string
+    baseCost: Decimal | number
+    costMult: Decimal | number
+    baseProduction: Decimal | number
+    decayRate: Decimal | number
+    decayMult: Decimal | number
+    productionMult: Decimal | number
+    amount?: Decimal | number
+    unlocked?: boolean
+    canAfford?: boolean
+    lickable?: boolean // DO NOT
+    Upgrades: {
+        production: IUConfig;
+        decay: IUConfig;
+        cost: IUConfig;
+    }
+    getCost(): Decimal
+    getProduction(): Decimal
+}
+
+export interface IGConfig
+    extends Pick<IGenerator, Exclude<keyof IGenerator, 'getCost' | 'getProduction'>>,
+    Partial<Pick<IGenerator, 'getCost' | 'getProduction'>> { }
+
+export interface IUpgrade {
+    id: string
+    genID: string
+    name: string
+    description: string
+    baseCost: Decimal | number
+    costMult: Decimal | number
+    costAdd: Decimal | number
+    effect: {
+        type: "production" | "decay" | "cost"
+        value: Decimal | number
+        isMultiplicative: boolean
+    }
+    amount?: Decimal | number
+    unlocked?: boolean
+    canAfford?: boolean
+
+    getCost(): Decimal
+    getBonus(): Decimal
+}
+
+export interface IUConfig
+    extends Pick<IUpgrade, Exclude<keyof IUpgrade, 'getCost' | 'getBonus'>>,
+    Partial<Pick<IUpgrade, 'getCost' | 'getBonus'>> { }
+
+export type UpgradeType = "production" | "decay" | "cost"
+
+
+export enum Notation {
+    SCIENTIFIC,
+    STANDARD
+}
