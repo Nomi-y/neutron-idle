@@ -1,4 +1,6 @@
 import Decimal from "decimal.js"
+import { IPUConfig } from "../interfaces"
+
 export const prestige = {
     NSthreshhold: new Decimal(100_0),
     NSexponent: new Decimal(0.5),
@@ -18,3 +20,17 @@ export const prestige = {
         }
     }
 }
+
+export const prestigeUpgrades: IPUConfig[] = [
+    {
+        id: "hello",
+        name: "world",
+        description: "balls",
+        baseCost: 1,
+        costMult: 1,
+        costAdd: 1,
+        baseEffect: 1,
+        effectMult: 1
+    },
+]
+

@@ -36,7 +36,7 @@ export interface IUpgrade {
     costMult: Decimal | number
     costAdd: Decimal | number
     effect: {
-        type: "production" | "decay" | "cost"
+        type: UpgradeType
         value: Decimal | number
         isMultiplicative: boolean
     }
@@ -54,6 +54,24 @@ export interface IUConfig
 
 export type UpgradeType = "production" | "decay" | "cost"
 
+export interface IPrestigeUpgrade {
+    id: string
+    name: string
+    description: string
+    baseCost: Decimal | number
+    costMult: Decimal | number
+    costAdd: Decimal | number
+    baseEffect: Decimal | number
+    effectMult: Decimal | number
+    amount?: Decimal
+
+    getCost(): Decimal
+    getBonus(): Decimal
+}
+
+export interface IPUConfig
+    extends Pick<IPrestigeUpgrade, Exclude<keyof IPrestigeUpgrade, 'getCost' | 'getBonus'>>,
+    Partial<Pick<IPrestigeUpgrade, 'getCost' | 'getBonus'>> { }
 
 export enum Notation {
     SCIENTIFIC,

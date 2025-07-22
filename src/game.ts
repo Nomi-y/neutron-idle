@@ -8,34 +8,49 @@ import Decimal from 'decimal.js';
 import { Upgrade } from './upgrades';
 import { IUpgrade, UpgradeType } from './interfaces';
 import { getLickMessage } from './config/Lick';
-import { prestige } from './config/prestigeConf';
+import { prestige, prestigeUpgrades } from './config/prestigeConf';
+import { PrestigeUpgrade } from './prestige';
 
 const DEV_GAME_SPEED: number = 50
 const infinity308: Decimal = new Decimal(Infinity)
 
 class Game {
+    // 1/hz -> Update Framerate
+    private readonly UPDATE_INTERVAL: number = 50
+    private lastTickTime: number = 0;
+
+    // Regular currency
     private points: Decimal = new Decimal(10);
     private pointsPerSecond: Decimal = new Decimal(0);
+
+    // Isotopes + their upgrades
     private generators: Generator[] = [];
     private upgrades: Upgrade[] = []
+
+    // ????
     private lickCounter: number = 0
     private lastLick: number = -1
+
+    // Tab UI
     private tabManager: TabManager;
+
+    // Dont tick if paused
     private paused: boolean = false
 
+    // Prestige currency + upgrades
     private neutronStars = {
         amount: new Decimal(0),
         multiplier: new Decimal(1),
         prestiged: false,
     }
+    private prestigeUpgrades: PrestigeUpgrade[] = []
 
-    private lastTickTime: number = 0;
-    private readonly UPDATE_INTERVAL: number = 50
 
     constructor() {
         this.tabManager = new TabManager();
         this.initializeGenerators();
         this.initializePrestige()
+        this.initializePrestigeUpgrades()
         this.updateUI();
 
         this.startGameLoop()
@@ -95,8 +110,28 @@ class Game {
             e.stopPropagation();
             this.prestigeNeutronStars()
         })
-
     }
+
+    private initializePrestigeUpgrades(): void {
+        this.prestigeUpgrades = prestigeUpgrades.map(config =>
+            new PrestigeUpgrade(
+                config.id,
+                config.name,
+                config.description,
+                new Decimal(config.baseCost),
+                new Decimal(config.costMult),
+                new Decimal(config.costAdd),
+                new Decimal(config.baseEffect),
+                new Decimal(config.effectMult)
+            )
+        )
+        this.renderPrestigeUpgrades()
+    }
+
+    private renderPrestigeUpgrades(): void {
+        PrestigeUpgrade.renderPrestigeUpgrades(this.prestigeUpgrades)
+    }
+
 
     private updateResources(deltaTime: number): void {
         const deltaSeconds = new Decimal(deltaTime).dividedBy(1000);
@@ -116,6 +151,9 @@ class Game {
         if (!this.points.gte(prestige.NSthreshhold)) return
 
         this.paused = true
+
+        if (!this.neutronStars.prestiged) this.neutronStars.prestiged = true
+
         this.neutronStars.amount = this.neutronStars.amount.plus(
             prestige.getNeutronStarAmount(this.points)
         )
@@ -298,8 +336,12 @@ class Game {
     private updateUI(): void {
         document.getElementById('points')!.textContent = formatNumber(this.points);
         document.getElementById('points-per-second')!.textContent = `${formatNumber(this.pointsPerSecond)}/sec ${this.devGameSpeedDisplay()}`;
-        if (this.points.greaterThan(prestige.NSthreshhold) && !this.neutronStars.prestiged) {
-            document.getElementById('neutron-stars')!.classList.remove('hidden')
+
+        if (this.points.greaterThan(prestige.NSthreshhold) || this.neutronStars.prestiged) {
+            document.getElementById('neutron-stars')?.classList.remove('hidden')
+            document.getElementById('prestige-tab-button')?.classList.remove('hidden')
+            document.getElementById('prestige-button')!.textContent = `Prestige for ${formatNumber(prestige.getNeutronStarAmount(this.points))} Neutron Star${prestige.getNeutronStarAmount(this.points).equals(1) ? "" : "s"}`
+            document.getElementById('prestige-points')!.textContent = `${formatNumber(this.neutronStars.amount, 2)}`
         }
     }
 

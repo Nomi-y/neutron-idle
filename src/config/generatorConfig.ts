@@ -3,8 +3,8 @@ import { IGConfig } from "../interfaces";
 export const generatorConfig: IGConfig[] = [
     {
         id: "hydrogen-3",
-        name: "Tritium",
-        shortName: "Tr",
+        name: "Hydrogen-3",
+        shortName: "H-3",
         description: "Glows brighter than your future.",
         baseCost: 10,
         costMult: 1.15,

@@ -1,0 +1,6 @@
+Implement Basic Currency earning
+Implement Upgrades
+Implement Prestige
+Implement Prestige Shop
+Implement gamma radiation
+
