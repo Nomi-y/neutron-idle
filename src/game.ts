@@ -10,8 +10,9 @@ import { IUpgrade, UpgradeType } from './interfaces';
 import { getLickMessage } from './config/Lick';
 import { prestige, prestigeUpgrades } from './config/prestigeConf';
 import { PrestigeUpgrade } from './prestige';
+import { settings } from './config/settings';
 
-const DEV_GAME_SPEED: number = 50
+const GAME_SPEED = settings.dev.DEV_MODE ? settings.dev.DEV_GAME_SPEED : 1
 const infinity308: Decimal = new Decimal(Infinity)
 
 class Game {
@@ -22,6 +23,7 @@ class Game {
     // Regular currency
     private points: Decimal = new Decimal(10);
     private pointsPerSecond: Decimal = new Decimal(0);
+    private totalPoints: Decimal = new Decimal(10)
 
     // Isotopes + their upgrades
     private generators: Generator[] = [];
@@ -43,6 +45,8 @@ class Game {
         multiplier: new Decimal(1),
         prestiged: false,
     }
+    private radiationAbsorbed: Decimal = new Decimal(0)
+    private radiationFactor: Decimal = new Decimal(0.8)
     private prestigeUpgrades: PrestigeUpgrade[] = []
 
 
@@ -118,6 +122,7 @@ class Game {
                 config.id,
                 config.name,
                 config.description,
+                config.effectDescription,
                 new Decimal(config.baseCost),
                 new Decimal(config.costMult),
                 new Decimal(config.costAdd),
@@ -139,11 +144,12 @@ class Game {
 
         for (const generator of this.generators) {
             if (generator.amount.gt(0)) {
-                totalProduction = totalProduction.plus(generator.getProduction().times(DEV_GAME_SPEED));
+                totalProduction = totalProduction.plus(generator.getProduction().times(GAME_SPEED));
             }
         }
 
         this.points = this.points.plus(totalProduction.times(deltaSeconds));
+        this.totalPoints = this.totalPoints.plus(totalProduction.times(deltaSeconds))
         this.pointsPerSecond = totalProduction;
     }
 
@@ -157,6 +163,8 @@ class Game {
         this.neutronStars.amount = this.neutronStars.amount.plus(
             prestige.getNeutronStarAmount(this.points)
         )
+
+        this.radiationAbsorbed = this.radiationAbsorbed.plus(this.totalPoints.ln().times(this.radiationFactor))
 
         this.points = new Decimal(10)
 
@@ -234,11 +242,13 @@ class Game {
                 config.name,
                 config.shortName,
                 config.description,
-                new Decimal(config.baseCost),
-                new Decimal(config.costMult),
+                {
+                    base: new Decimal(config.cost.base),
+                    baseMult: Decimal(config.cost.baseMult),
+                    multInterval: Decimal(config.cost.multInterval),
+                },
                 new Decimal(config.baseProduction),
                 new Decimal(config.decayRate),
-                new Decimal(config.decayMult),
                 new Decimal(config.productionMult),
                 {
                     production: Upgrade.createUpgrade(config.id, config.Upgrades.production as IUpgrade, config.Upgrades.production.effect.type),
@@ -301,10 +311,11 @@ class Game {
         let totalCost = new Decimal(0);
         let currentAmount = generator.amount;
         let canBuyMore = true;
+        const maxIterations = 1_000_000;
 
         while (canBuyMore) {
-            const nextCost = new Decimal(generator.baseCost)
-                .times(new Decimal(generator.costMult).pow(currentAmount.plus(amountToBuy))).floor()
+            const nextAmount = currentAmount.plus(amountToBuy);
+            const nextCost = generator.getCostFor(nextAmount);
 
             if (this.points.gte(totalCost.plus(nextCost))) {
                 totalCost = totalCost.plus(nextCost);
@@ -313,7 +324,7 @@ class Game {
                 canBuyMore = false;
             }
 
-            if (amountToBuy.gt(1000000)) {
+            if (amountToBuy.gte(maxIterations)) {
                 canBuyMore = false;
             }
         }
@@ -323,9 +334,10 @@ class Game {
             generator.amount = generator.amount.plus(amountToBuy);
             this.updatePointsPerSecond();
             this.updateUI();
-            this.renderGenerators()
+            this.renderGenerators();
         }
     }
+
     private updatePointsPerSecond(): void {
         this.pointsPerSecond = this.generators.reduce(
             (sum, gen) => sum.plus(gen.getProduction()),
@@ -334,8 +346,8 @@ class Game {
     }
 
     private updateUI(): void {
-        document.getElementById('points')!.textContent = formatNumber(this.points);
-        document.getElementById('points-per-second')!.textContent = `${formatNumber(this.pointsPerSecond)}/sec ${this.devGameSpeedDisplay()}`;
+        document.getElementById('points')!.textContent = formatNumber(this.points, 2, true);
+        document.getElementById('points-per-second')!.textContent = `${formatNumber(this.pointsPerSecond, 2, true)}/sec ${this.devGameSpeedDisplay()}`;
 
         if (this.points.greaterThan(prestige.NSthreshhold) || this.neutronStars.prestiged) {
             document.getElementById('neutron-stars')?.classList.remove('hidden')
@@ -346,7 +358,7 @@ class Game {
     }
 
     private devGameSpeedDisplay(): string {
-        return DEV_GAME_SPEED === 1 ? "" : `[x${DEV_GAME_SPEED} DEV]`
+        return settings.dev.DEV_MODE ? `[x${GAME_SPEED} DEV]` : ""
     }
 }
 

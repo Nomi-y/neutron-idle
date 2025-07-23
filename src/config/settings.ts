@@ -1,3 +1,7 @@
 export const settings = {
-    phosphorusLickButton: false
+    dev: {
+
+        DEV_GAME_SPEED: 1,
+        DEV_MODE: true
+    }
 }

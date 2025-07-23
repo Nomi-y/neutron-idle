@@ -4,11 +4,13 @@ export interface IGenerator {
     name: string
     shortName: string
     description: string
-    baseCost: Decimal | number
-    costMult: Decimal | number
+    cost: {
+        base: Decimal | number
+        baseMult: Decimal | number
+        multInterval: Decimal | number
+    }
     baseProduction: Decimal | number
     decayRate: Decimal | number
-    decayMult: Decimal | number
     productionMult: Decimal | number
     amount?: Decimal | number
     unlocked?: boolean
@@ -20,12 +22,14 @@ export interface IGenerator {
         cost: IUConfig;
     }
     getCost(): Decimal
+    getCostMult(): Decimal
     getProduction(): Decimal
 }
 
 export interface IGConfig
-    extends Pick<IGenerator, Exclude<keyof IGenerator, 'getCost' | 'getProduction'>>,
+    extends Omit<IGenerator, 'getCost' | 'getProduction' | 'getCostMult'>,
     Partial<Pick<IGenerator, 'getCost' | 'getProduction'>> { }
+
 
 export interface IUpgrade {
     id: string
@@ -58,6 +62,7 @@ export interface IPrestigeUpgrade {
     id: string
     name: string
     description: string
+    effectDescription: string
     baseCost: Decimal | number
     costMult: Decimal | number
     costAdd: Decimal | number

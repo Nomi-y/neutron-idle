@@ -6,19 +6,21 @@ export const generatorConfig: IGConfig[] = [
         name: "Hydrogen-3",
         shortName: "H-3",
         description: "Glows brighter than your future.",
-        baseCost: 10,
-        costMult: 1.15,
-        baseProduction: 1,
-        decayRate: 1.0,
-        decayMult: 1.0,
-        productionMult: 1.0,
+        cost: {
+            base: 10,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 4,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "tritium-prod",
                 genID: "H-3",
                 name: "Deuterium Boost",
                 description: "Base production ×1.1",
-                baseCost: 20,
+                baseCost: 50,
                 costMult: 1.05,
                 costAdd: 5,
                 effect: { type: "production", value: 1.1, isMultiplicative: true }
@@ -28,7 +30,7 @@ export const generatorConfig: IGConfig[] = [
                 genID: "H-3",
                 name: "Glowsticks",
                 description: "+0.2 decay rate",
-                baseCost: 30,
+                baseCost: 80,
                 costMult: 1.005,
                 costAdd: 10,
                 effect: { type: "decay", value: 0.2, isMultiplicative: false }
@@ -50,12 +52,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Carbon-14",
         shortName: "C-14",
         description: "Guaranteed fresh… for 5,730 years.",
-        baseCost: 100,
-        costMult: 1.18,
-        baseProduction: 1.5,
-        decayRate: 0.9,
-        decayMult: 1.05,
-        productionMult: 1.15,
+        cost: {
+            base: 700,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 60,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "carbon-prod-1",
@@ -106,12 +110,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Phosphorus-32",
         shortName: "P-32",
         description: "Lab Safety Note: The 'do not lick' sticker is there for a REASON.",
-        baseCost: 1_200,
-        costMult: 1.22,
-        baseProduction: 4,
-        decayRate: 0.8,
-        decayMult: 1.1,
-        productionMult: 1.35,
+        cost: {
+            base: 49_000,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 900,
+        decayRate: 1,
+        productionMult: 1,
         lickable: true,
         Upgrades: {
             production: {
@@ -151,12 +157,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Potassium-40",
         shortName: "K-40",
         description: "Yes, bananas have this. No, that doesn't make it 'organic'.",
-        baseCost: 15_000,
-        costMult: 1.25,
-        baseProduction: 12,
-        decayRate: 0.7,
-        decayMult: 1.12,
-        productionMult: 1.75,
+        cost: {
+            base: 3_430_000,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 13_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "potassium-prod",
@@ -195,12 +203,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Cobalt-60",
         shortName: "Co-60",
         description: "Sterilizes food… and also you.",
-        baseCost: 150_000,
-        costMult: 1.28,
-        baseProduction: 40,
-        decayRate: 0.6,
-        decayMult: 1.15,
-        productionMult: 2.2,
+        cost: {
+            base: 240_100_000,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 202_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "cobalt-prod",
@@ -239,12 +249,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Iodine-131",
         shortName: "I-131",
         description: "Not a snack. (Stop licking the lab equipment.)",
-        baseCost: 1_200_000,
-        costMult: 1.3,
-        baseProduction: 150,
-        decayRate: 0.5,
-        decayMult: 1.18,
-        productionMult: 3.0,
+        cost: {
+            base: 16_807_000_000,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 3_037_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "iodine-prod",
@@ -283,12 +295,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Cesium-137",
         shortName: "Ce-137",
         description: "Now with 100% more ionizing radiation!",
-        baseCost: 10_000_000,
-        costMult: 1.35,
-        baseProduction: 600,
-        decayRate: 0.4,
-        decayMult: 1.22,
-        productionMult: 4.5,
+        cost: {
+            base: 1.17649E+12,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 45_562_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "cesium-prod",
@@ -327,12 +341,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Strontium-90",
         shortName: "Sr-90",
         description: "We made one gram last year. Why do you have twenty?",
-        baseCost: 90_000_000,
-        costMult: 1.38,
-        baseProduction: 3_000,
-        decayRate: 0.3,
-        decayMult: 1.25,
-        productionMult: 6.5,
+        cost: {
+            base: 8.23543E+13,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 683_437_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "strontium-prod",
@@ -371,12 +387,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Radium-226",
         shortName: "Ra-226",
         description: "We stopped restocking this in 1925. How do you keep finding more?",
-        baseCost: 800_000_000,
-        costMult: 1.42,
-        baseProduction: 15_000,
-        decayRate: 0.2,
-        decayMult: 1.3,
-        productionMult: 9.0,
+        cost: {
+            base: 5.7648E+15,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 10_251_562_500,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "radium-prod",
@@ -415,11 +433,13 @@ export const generatorConfig: IGConfig[] = [
         name: "Plutonium-239",
         shortName: "Pu-239",
         description: "The IAEA is asking questions.",
-        baseCost: 7_000_000_000,
-        costMult: 1.45,
-        baseProduction: 80_000,
-        decayRate: 0.15,
-        decayMult: 1.35,
+        cost: {
+            base: 4.03536E+17,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 1.53773E+11,
+        decayRate: 1,
         productionMult: 12.0,
         Upgrades: {
             production: {
@@ -454,18 +474,19 @@ export const generatorConfig: IGConfig[] = [
             }
         }
     },
-    // Tier 6 - Super Late Game
     {
         id: "californium-252",
         name: "Californium-252",
         shortName: "Cf-252",
         description: "Maybe don't transport this in your backpack?",
-        baseCost: 70_000_000_000,
-        costMult: 1.5,
-        baseProduction: 500_000,
-        decayRate: 0.1,
-        decayMult: 1.4,
-        productionMult: 18.0,
+        cost: {
+            base: 2.82475E+19,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 2.3066E+12,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "californium-prod",
@@ -504,12 +525,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Einsteinium-253",
         shortName: "Es-253",
         description: "When you absolutely need to outshine the sun.",
-        baseCost: 500_000_000_000,
-        costMult: 1.55,
-        baseProduction: 3_000_000,
-        decayRate: 0.05,
-        decayMult: 1.45,
-        productionMult: 25.0,
+        cost: {
+            base: 1.97733E+21,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 3.4599E+13,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "einsteinium-prod",
@@ -548,12 +571,14 @@ export const generatorConfig: IGConfig[] = [
         name: "Oganesson-294",
         shortName: "Og-294",
         description: "Exists for 0.69ms - just long enough to say 'Nice'.",
-        baseCost: 10_000_000_000_000,
-        costMult: 1.8,
-        baseProduction: 50_000_000,
-        decayRate: 0.01,
-        decayMult: 1.6,
-        productionMult: 50.0,
+        cost: {
+            base: 1.38413E+23,
+            baseMult: 2,
+            multInterval: 10,
+        },
+        baseProduction: 5.18985E+14,
+        decayRate: 1,
+        productionMult: 1,
         Upgrades: {
             production: {
                 id: "oganesson-prod",
